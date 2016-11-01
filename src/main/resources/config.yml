@@ -1,0 +1,83 @@
+# +--------------------------------+
+# |                                |
+# |            LANGUAGE            |
+# |                                |
+# +--------------------------------+
+
+# The language tag. For it to work, you must create a file called "Messages_<tag>.properties" in the "language" folder.
+# The tag is the language tag: "en" for english, "de" for german and so on.
+# After you created the file and translated it, you need to enter your tag below.
+language: "en"
+
+
+# +--------------------------------+
+# |                                |
+# |              LOGIN             |
+# |                                |
+# +--------------------------------+
+
+# If true, it will automatically log you in if you joined with the same IP
+same.ip.auto.login: false
+
+
+# +--------------------------------+
+# |                                |
+# |           PRE LOGIN            |
+# |                                |
+# +--------------------------------+
+
+# The commands that are allowed even before you login
+pre.login.allowed.commands:
+- "staffsecure"
+# Whether it should change the helmet of not logged in players
+not.logged.in.change.player.helmet: true
+# The material of the helmet they get when they are not logged in
+not.logged.in.player.helmet.material: "ICE"
+# Whether not logged in players should get blindness
+not.logged.in.blindness: true
+
+
+# +--------------------------------+
+# |                                |
+# |              TOKEN             |
+# |                                |
+# +--------------------------------+
+
+# How long a token is valid
+token.lifespan: 10s
+# The amount of bytes for the token. Will be encoded with base64 to ease the input for the user
+token.bytes.amount: 3
+
+
+# +--------------------------------+
+# |                                |
+# |        PASSWORD STORAGE        |
+# |                                |
+# +--------------------------------+
+
+# The length if the salt
+salt.length: 256
+# The length of the key
+key.length: 512
+# The amount of iterations
+iteration.count: 2000
+
+
+# +--------------------------------+
+# |                                |
+# |           PERMISISONS          |
+# |                                |
+# +--------------------------------+
+
+# Here are all permissions of that plugin listed. You can't change them here, if you want:
+permissions:
+  commands:
+    changePassword: "staffsecure.change.password"
+    getPin: "staffsecure.get.pin"
+    login: "staffsecure.login"
+    redeemPin: "staffsecure.redeem.pin"
+    register: "staffsecure.register"
+    staffSecure: "staffSecure"
+  other:
+    # Players that need to login
+    players.require.login: "staffsecure.require.login"
