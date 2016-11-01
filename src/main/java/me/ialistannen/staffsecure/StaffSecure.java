@@ -36,8 +36,10 @@ public final class StaffSecure extends JavaPlugin {
 
         ConfigurationSerialization.registerClass(PlayerData.class);
 
+        saveDefaultConfig();
+        
         {
-            I18N.copyDefaultFiles(this, true, "me.ialistannen.staffsecure.language");
+            I18N.copyDefaultFiles(this, false, "me.ialistannen.staffsecure.language");
             language = new I18N(this, "me.ialistannen.staffsecure.language");
             language.setLanguage(Locale.forLanguageTag(getConfig().getString("language")));
         }
