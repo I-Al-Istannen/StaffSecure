@@ -1,8 +1,12 @@
 package me.ialistannen.staffsecure.commands;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 
+import org.apache.commons.lang.time.DurationFormatUtils;
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,6 +15,7 @@ import org.bukkit.permissions.Permission;
 import com.perceivedev.perceivecore.command.CommandResult;
 import com.perceivedev.perceivecore.command.CommandSenderType;
 import com.perceivedev.perceivecore.command.TranslatedCommandNode;
+import com.perceivedev.perceivecore.time.DurationParser;
 
 import me.ialistannen.staffsecure.StaffSecure;
 import me.ialistannen.staffsecure.event.PlayerAuthenticateEvent;
@@ -69,10 +74,41 @@ class CommandLogin extends TranslatedCommandNode {
             }
 
             Bukkit.getPluginManager().callEvent(new PlayerAuthenticateEvent(player));
+            Util.setFailedLoginAttempts(player, 0);
         } else {
-            player.sendMessage(Util.trWithPrefix("command.login.password.incorrect"));
+            int failedAttempts = Util.getFailedLoginAttempts(player) + 1;
+            int maxFailedAttempts = StaffSecure.getInstance().getConfig().getInt("max.login.attempts");
+            
+            player.sendMessage(Util.trWithPrefix("command.login.password.incorrect", failedAttempts, maxFailedAttempts));
+            Util.increaseFailedLoginAttempts(player);
+
+            if (failedAttempts >= maxFailedAttempts) {
+                banPlayerForFailedLogin(player, failedAttempts);
+                return CommandResult.SUCCESSFULLY_INVOKED;
+            }
         }
 
         return CommandResult.SUCCESSFULLY_INVOKED;
+    }
+
+    private void banPlayerForFailedLogin(Player player, int failedAttempts) {
+        BanList banList = Bukkit.getBanList(BanList.Type.NAME);
+        long duration;
+        try {
+            duration = DurationParser.parseDuration(StaffSecure.getInstance().getConfig().getString("max.login.ban.duration"));
+        } catch (RuntimeException e) {
+            StaffSecure.getInstance().getLogger().log(Level.WARNING, "Invalid ban duration entered: '"
+                      + StaffSecure.getInstance().getConfig().getString("max.login.ban.duration")
+                      + "'.", e);
+            return;
+        }
+        String message = Util.tr("failed.login.banned", DurationFormatUtils.formatDurationWords(duration, true, true), failedAttempts);
+
+        banList.addBan(player.getName(), message, new Date(System.nanoTime() + duration), null);
+        
+        // reset attempts
+        Util.setFailedLoginAttempts(player, 0);
+        
+        player.kickPlayer(message);
     }
 }

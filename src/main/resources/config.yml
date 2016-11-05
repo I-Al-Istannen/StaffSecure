@@ -30,6 +30,10 @@ use.top.level.commands: false
 
 # If true, it will automatically log you in if you joined with the same IP
 same.ip.auto.login: false
+# The maximum amount of failed login attempts until they will be temp banned
+max.login.attempts: 10
+# The duration of the temp ban for inputting the wrong password too many times
+max.login.ban.duration: 30m
 
 
 # +--------------------------------+
