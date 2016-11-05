@@ -3,6 +3,7 @@ package me.ialistannen.staffsecure.event;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,6 +24,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.perceivedev.perceivecore.PerceiveCore;
+import com.perceivedev.perceivecore.time.DurationParser;
 import com.perceivedev.perceivecore.util.ItemFactory;
 
 import me.ialistannen.staffsecure.StaffSecure;
@@ -109,6 +111,16 @@ public class PlayerListener implements Listener {
         }.runTaskLater(StaffSecure.getInstance(), 2L);
         //</editor-fold>
 
+        //<editor-fold desc="not logged in message">
+        // ------------ LOGIN MESSAGE ---------------
+        
+        // send the messages in an interval, if they do not want messages per action
+        if (!StaffSecure.getInstance().getConfig().getBoolean("not.logged.in.send.message.on.interact")) {
+            startDelayedMessageDispatcher(event.getPlayer().getUniqueId());
+        }
+        //</editor-fold>
+        
+        
         // Do not auto-login them
         if (!StaffSecure.getInstance().getConfig().getBoolean("same.ip.auto.login")) {
             return;
@@ -123,6 +135,34 @@ public class PlayerListener implements Listener {
             event.getPlayer().sendMessage(Util.trWithPrefix("command.login.successfully.logged.in"));
             Util.setLoginStatus(event.getPlayer(), true);
         }
+    }
+
+    /**
+     * Starts the message dispatcher. This just sends the "not logged in" message repeatedly, until they log in
+     *
+     * @param playerId The {@link UUID} of the player to start it for
+     */
+    private void startDelayedMessageDispatcher(UUID playerId) {
+        String delayString = StaffSecure.getInstance().getConfig().getString("not.logged.in.send.message.delay");
+        long delayTicks = 10 * 60;
+
+        try {
+            delayTicks = DurationParser.parseDurationToTicks(delayString);
+        } catch (RuntimeException e) {
+            StaffSecure.getInstance().getLogger().log(Level.WARNING, "Couldn't parse delay: 'not.logged.in.send.message.delay'", e);
+        }
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Player onlinePlayer = Bukkit.getPlayer(playerId);
+                if (onlinePlayer == null || Util.isLoggedIn(onlinePlayer)) {
+                    cancel();
+                    return;
+                }
+                sendNotLoggedInOrRegisteredMessage(Util.trWithPrefix("status.not.logged.in"), onlinePlayer, true);
+            }
+        }.runTaskTimer(StaffSecure.getInstance(), 0, delayTicks);
     }
 
     @EventHandler
@@ -154,7 +194,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         if (!Util.isLoggedIn(event.getPlayer())) {
-            event.getPlayer().sendMessage(Util.trWithPrefix("not.logged.in.prevented.interact"));
+            sendNotLoggedInOrRegisteredMessage(Util.trWithPrefix("not.logged.in.prevented.interact"), event.getPlayer());
             event.setCancelled(true);
         }
     }
@@ -176,7 +216,7 @@ public class PlayerListener implements Listener {
         }
 
         if (!event.getFrom().toVector().equals(event.getTo().toVector())) {
-            event.getPlayer().sendMessage(Util.trWithPrefix("not.logged.in.prevented.move"));
+            sendNotLoggedInOrRegisteredMessage(Util.trWithPrefix("not.logged.in.prevented.move"), event.getPlayer());
         }
         event.setTo(event.getFrom().setDirection(event.getTo().getDirection()));
     }
@@ -184,7 +224,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         if (!Util.isLoggedIn(event.getPlayer())) {
-            event.getPlayer().sendMessage(Util.trWithPrefix("not.logged.in.prevented.chat"));
+            sendNotLoggedInOrRegisteredMessage(Util.trWithPrefix("not.logged.in.prevented.chat"), event.getPlayer());
             event.setCancelled(true);
         }
     }
@@ -200,7 +240,30 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        event.getPlayer().sendMessage(Util.trWithPrefix("not.logged.in.prevented.command", command));
+        sendNotLoggedInOrRegisteredMessage(Util.trWithPrefix("not.logged.in.prevented.command", command), event.getPlayer());
         event.setCancelled(true);
+    }
+
+    /**
+     * Sends the "not logged in" or "not registered" messages to the player
+     *
+     * @param notLoggedInMessage The message to send when they are not logged in
+     * @param player The player to send it for
+     * @param forceSend If true, the message will be send regardless of the settings in {@code not.logged.in.send.message.on.interact}
+     */
+    private void sendNotLoggedInOrRegisteredMessage(String notLoggedInMessage, Player player, boolean forceSend) {
+        if (!forceSend && !StaffSecure.getInstance().getConfig().getBoolean("not.logged.in.send.message.on.interact")) {
+            return;
+        }
+
+        if (StaffSecure.getInstance().getPlayerDataManager().isRegistered(player.getUniqueId())) {
+            player.sendMessage(notLoggedInMessage);
+        } else {
+            player.sendMessage(Util.trWithPrefix("status.not.registered"));
+        }
+    }
+
+    private void sendNotLoggedInOrRegisteredMessage(String notLoggedInMessage, Player player) {
+        sendNotLoggedInOrRegisteredMessage(notLoggedInMessage, player, false);
     }
 }

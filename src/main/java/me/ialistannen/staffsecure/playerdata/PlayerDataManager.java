@@ -56,6 +56,8 @@ public class PlayerDataManager {
         PlayerData data = new PlayerData(newPassword, newSalt, iterationCount, keyLength, saltLength, inetAddress);
 
         saveToFile(data, uuid);
+        
+        cache.put(uuid, data);
     }
 
     /**

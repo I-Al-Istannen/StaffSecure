@@ -12,6 +12,18 @@ language: "en"
 
 # +--------------------------------+
 # |                                |
+# |             GENERAL            |
+# |                                |
+# +--------------------------------+
+
+# If true, each sub command will get its own top level command. This means you can do "/register" instead of "/staffSecure register".
+# This can lead to conflicts with other plugins using the same command names. Disable this option if that is the case
+use.top.level.commands: false
+
+
+
+# +--------------------------------+
+# |                                |
 # |              LOGIN             |
 # |                                |
 # +--------------------------------+
@@ -27,14 +39,24 @@ same.ip.auto.login: false
 # +--------------------------------+
 
 # The commands that are allowed even before you login
+# Must all be fully lowercase
 pre.login.allowed.commands:
 - "staffsecure"
+- "login"
+- "register"
+- "getpin"
+- "pin"
 # Whether it should change the helmet of not logged in players
 not.logged.in.change.player.helmet: true
 # The material of the helmet they get when they are not logged in
 not.logged.in.player.helmet.material: "ICE"
 # Whether not logged in players should get blindness
 not.logged.in.blindness: true
+# Whether it should send the "not logged in" message at every action or in a fixed schedule
+not.logged.in.send.message.on.interact: false
+# Only relevant if above is false
+# The delay until the "not logged in" message will be send again
+not.logged.in.send.message.delay: 10s
 
 
 # +--------------------------------+

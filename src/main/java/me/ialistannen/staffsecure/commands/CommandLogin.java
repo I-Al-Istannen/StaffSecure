@@ -49,6 +49,11 @@ class CommandLogin extends TranslatedCommandNode {
             return CommandResult.SUCCESSFULLY_INVOKED;
         }
 
+        if (Util.isLoggedIn(player)) {
+            player.sendMessage(Util.trWithPrefix("status.already.logged.in"));
+            return CommandResult.SUCCESSFULLY_INVOKED;
+        }
+
         boolean correct = passwordManager.isCorrect(player.getUniqueId(), args[0]);
 
         if (correct) {
