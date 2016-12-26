@@ -6,7 +6,7 @@
 
     <groupId>me.ialistannen</groupId>
     <artifactId>StaffSecure</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>StaffSecure</name>
