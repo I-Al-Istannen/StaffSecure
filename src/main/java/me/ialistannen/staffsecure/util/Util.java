@@ -25,7 +25,7 @@ public class Util {
      * @return The translated String
      */
     public static String tr(String key, Object... formattingObjects) {
-        return StaffSecure.getInstance().getLanguage().tr(key, formattingObjects);
+        return StaffSecure.getInstance().getLanguage().translate(key, formattingObjects);
     }
 
     /**

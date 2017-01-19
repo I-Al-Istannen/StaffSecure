@@ -15,7 +15,7 @@ import org.bukkit.permissions.Permission;
 import com.perceivedev.perceivecore.command.CommandResult;
 import com.perceivedev.perceivecore.command.CommandSenderType;
 import com.perceivedev.perceivecore.command.TranslatedCommandNode;
-import com.perceivedev.perceivecore.time.DurationParser;
+import com.perceivedev.perceivecore.utilities.time.DurationParser;
 
 import me.ialistannen.staffsecure.StaffSecure;
 import me.ialistannen.staffsecure.event.PlayerAuthenticateEvent;

@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.perceivedev.perceivecore.time.DurationParser;
+import com.perceivedev.perceivecore.utilities.time.DurationParser;
 
 import me.ialistannen.staffsecure.StaffSecure;
 

@@ -23,9 +23,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.perceivedev.perceivecore.PerceiveCore;
-import com.perceivedev.perceivecore.time.DurationParser;
-import com.perceivedev.perceivecore.util.ItemFactory;
+import com.perceivedev.perceivecore.coreplugin.PerceiveCore;
+import com.perceivedev.perceivecore.utilities.item.ItemFactory;
+import com.perceivedev.perceivecore.utilities.time.DurationParser;
 
 import me.ialistannen.staffsecure.StaffSecure;
 import me.ialistannen.staffsecure.playerdata.PlayerData;
