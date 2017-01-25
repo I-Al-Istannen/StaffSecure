@@ -8,15 +8,14 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.perceivedev.perceivecore.command.AbstractCommandNode;
-import com.perceivedev.perceivecore.command.CommandNode;
-import com.perceivedev.perceivecore.command.CommandSystemUtil;
-import com.perceivedev.perceivecore.command.CommandTree;
-import com.perceivedev.perceivecore.command.DefaultCommandExecutor;
-import com.perceivedev.perceivecore.command.DefaultTabCompleter;
-import com.perceivedev.perceivecore.language.I18N;
-import com.perceivedev.perceivecore.language.MessageProvider;
-
+import me.ialistannen.bukkitutilities.command.AbstractCommandNode;
+import me.ialistannen.bukkitutilities.command.CommandNode;
+import me.ialistannen.bukkitutilities.command.CommandSystemUtil;
+import me.ialistannen.bukkitutilities.command.CommandTree;
+import me.ialistannen.bukkitutilities.command.DefaultCommandExecutor;
+import me.ialistannen.bukkitutilities.command.DefaultTabCompleter;
+import me.ialistannen.bukkitutilities.language.I18N;
+import me.ialistannen.bukkitutilities.language.MessageProvider;
 import me.ialistannen.staffsecure.commands.CommandStaffSecure;
 import me.ialistannen.staffsecure.event.PlayerListener;
 import me.ialistannen.staffsecure.playerdata.PlayerData;
@@ -27,7 +26,7 @@ public final class StaffSecure extends JavaPlugin {
 
     private static StaffSecure instance;
 
-    private MessageProvider    language;
+    private MessageProvider language;
     private PlayerDataManager  playerDataManager;
     private PlayerTokenManager playerTokenManager;
 

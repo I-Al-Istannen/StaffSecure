@@ -7,10 +7,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
-import com.perceivedev.perceivecore.command.CommandResult;
-import com.perceivedev.perceivecore.command.CommandSenderType;
-import com.perceivedev.perceivecore.command.TranslatedCommandNode;
-
+import me.ialistannen.bukkitutilities.command.CommandResult;
+import me.ialistannen.bukkitutilities.command.CommandSenderType;
+import me.ialistannen.bukkitutilities.command.TranslatedCommandNode;
 import me.ialistannen.staffsecure.StaffSecure;
 import me.ialistannen.staffsecure.playerdata.PlayerDataManager;
 import me.ialistannen.staffsecure.playerdata.PlayerTokenManager;

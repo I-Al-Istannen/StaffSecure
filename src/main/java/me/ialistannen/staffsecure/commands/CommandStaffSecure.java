@@ -7,11 +7,10 @@ import java.util.stream.Collectors;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 
-import com.perceivedev.perceivecore.command.AbstractCommandNode;
-import com.perceivedev.perceivecore.command.CommandNode;
-import com.perceivedev.perceivecore.command.CommandSenderType;
-import com.perceivedev.perceivecore.command.TranslatedCommandNode;
-
+import me.ialistannen.bukkitutilities.command.AbstractCommandNode;
+import me.ialistannen.bukkitutilities.command.CommandNode;
+import me.ialistannen.bukkitutilities.command.CommandSenderType;
+import me.ialistannen.bukkitutilities.command.TranslatedCommandNode;
 import me.ialistannen.staffsecure.StaffSecure;
 
 /**

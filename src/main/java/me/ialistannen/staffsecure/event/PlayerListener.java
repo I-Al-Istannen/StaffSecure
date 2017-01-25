@@ -23,10 +23,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.perceivedev.perceivecore.coreplugin.PerceiveCore;
-import com.perceivedev.perceivecore.utilities.item.ItemFactory;
-import com.perceivedev.perceivecore.utilities.time.DurationParser;
-
+import me.ialistannen.bukkitutilities.coreplugin.BukkitUtilities;
+import me.ialistannen.bukkitutilities.utilities.item.ItemFactory;
+import me.ialistannen.bukkitutilities.utilities.time.DurationParser;
 import me.ialistannen.staffsecure.StaffSecure;
 import me.ialistannen.staffsecure.playerdata.PlayerData;
 import me.ialistannen.staffsecure.util.Util;
@@ -40,7 +39,7 @@ public class PlayerListener implements Listener {
 
     {
         // restore helmets on reload / disable
-        PerceiveCore.getInstance().getDisableManager().addListener(() -> {
+        BukkitUtilities.getInstance().getDisableManager().addListener(() -> {
             for (Map.Entry<UUID, ItemStack> entry : helmetMap.entrySet()) {
                 Player player = Bukkit.getPlayer(entry.getKey());
 
