@@ -1,6 +1,6 @@
 name: StaffSecure
 version: ${project.version}
 main: me.ialistannen.staffsecure.StaffSecure
-depend: [PerceiveCore]
+depend: ["BukkitUtilities"]
 authors: [I_Al_Istannen]
 description: A plugin that promts users to enter a password, if their IP address changed
